@@ -54,6 +54,26 @@ Napi::Boolean W_LogiLedSetLighting(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(env, result);
 }
 
+
+// my implementation of the rest functions
+
+Napi::Boolean W_LogiLedSetLightingForKeyWithScanCode(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  
+  // if(env.length() < 3){
+  //   Napi::TypeError::New(env, "Few arguments were provided. Required 4, keyname, red, green and blue").ThrowAsJavaScriptException();
+  //   return Napi::Boolean::New(env, false);
+  // }
+
+  // bool result = LogiLedSetLightingForKeyWithKeyName(LogiLed::KeyName::SEMICOLON,99,0,0);
+  bool result = LogiLedSetLightingForKeyWithScanCode(info[0].As<Napi::Number>().Int32Value(),0,100,0);
+  return Napi::Boolean::New(env, result);
+}
+
+// my code is above
+
+
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   // exports.Set(Napi::String::New(env, "LogitechLed"),
   //             Napi::Function::New(env, Method));
@@ -64,7 +84,14 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "LogiLedRestoreLighting"),
               Napi::Function::New(env, W_LogiLedRestoreLighting));
   exports.Set(Napi::String::New(env, "LogiLedSetLighting"),
-              Napi::Function::New(env, W_LogiLedSetLighting));              
+              Napi::Function::New(env, W_LogiLedSetLighting));
+
+  // my code is below thi line
+  exports.Set(Napi::String::New(env, "LogiLedSetLightingForKeyWithScanCode"),
+              Napi:: Function::New(env, W_LogiLedSetLightingForKeyWithScanCode));
+  // my code is above this code
+
+
   return exports;
 }
 

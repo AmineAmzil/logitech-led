@@ -1,11 +1,11 @@
-const addon = require('../build/Release/logitech-led-native');
+const addon = require("../build/Release/logitech-led-native");
 
 interface LogitechLed {
-    LogiLedInit: () => boolean;
-    LogiLedSaveCurrentLighting: () => boolean;
-    LogiLedRestoreCurrentLighting: () => boolean;
-    LogiLedSetLighting: (red: number, green: number, blue: number) => boolean;
+  LogiLedInit: () => boolean;
+  LogiLedSaveCurrentLighting: () => boolean;
+  LogiLedRestoreCurrentLighting: () => boolean;
+  LogiLedSetLighting: (red: number, green: number, blue: number) => boolean;
+  LogiLedSetLightingForKeyWithScanCode: () => boolean;
 }
 
-export = addon as LogitechLed
-
+export = addon as LogitechLed;
