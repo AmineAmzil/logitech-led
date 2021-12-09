@@ -47,9 +47,7 @@ Napi::Boolean W_LogiLedSetLighting(const Napi::CallbackInfo& info) {
     Napi::TypeError::New(env, "Invalid range. Arguments must be integers within 0 <= x <= 100").ThrowAsJavaScriptException();
     return Napi::Boolean::New(env, false);
   }
-
-
-
+  
   bool result = LogiLedSetLighting(redPercentage, bluePercentage, greenPercentage);
   return Napi::Boolean::New(env, result);
 }
@@ -59,15 +57,26 @@ Napi::Boolean W_LogiLedSetLighting(const Napi::CallbackInfo& info) {
 
 Napi::Boolean W_LogiLedSetLightingForKeyWithScanCode(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-
+ 
+  int keyScanCode = info[0].As<Napi::Number>().Int32Value();
+  int redPercentage = info[1].As<Napi::Number>().Int32Value();
+  int bluePercentage = info[2].As<Napi::Number>().Int32Value();
+  int greenPercentage = info[3].As<Napi::Number>().Int32Value();
   
-  // if(env.length() < 3){
-  //   Napi::TypeError::New(env, "Few arguments were provided. Required 4, keyname, red, green and blue").ThrowAsJavaScriptException();
-  //   return Napi::Boolean::New(env, false);
-  // }
+  if(!inRange(redPercentage, 0, 100)) {
+    Napi::TypeError::New(env, "Invalid range for red value. Arguments must be integers within 0 <= x <= 100").ThrowAsJavaScriptException();
+    return Napi::Boolean::New(env, false);
+  }
+  if(!inRange(bluePercentage, 0, 100)) {
+    Napi::TypeError::New(env, "Invalid range for blue value. Arguments must be integers within 0 <= x <= 100").ThrowAsJavaScriptException();
+    return Napi::Boolean::New(env, false);
+  }
+  if(!inRange(redPercentage, 0, 100)) {
+    Napi::TypeError::New(env, "Invalid range for green value. Arguments must be integers within 0 <= x <= 100").ThrowAsJavaScriptException();
+    return Napi::Boolean::New(env, false);
+  }
 
-  // bool result = LogiLedSetLightingForKeyWithKeyName(LogiLed::KeyName::SEMICOLON,99,0,0);
-  bool result = LogiLedSetLightingForKeyWithScanCode(info[0].As<Napi::Number>().Int32Value(),0,100,0);
+  bool result = LogiLedSetLightingForKeyWithScanCode(keyScanCode,redPercentage,bluePercentage,greenPercentage);
   return Napi::Boolean::New(env, result);
 }
 
